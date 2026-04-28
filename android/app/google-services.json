@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "386665558674",
+    "project_id": "demologin-7b582",
+    "storage_bucket": "demologin-7b582.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386665558674:android:a2372fc49328a561cdec4b",
+        "android_client_info": {
+          "package_name": "com.example.demologin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwIq0JsguJp63y1MC83g0r8k2s8RKo1X8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386665558674:android:6999fa0736726d45cdec4b",
+        "android_client_info": {
+          "package_name": "com.example.phamleanhkhoa_6451071035_btlt9"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwIq0JsguJp63y1MC83g0r8k2s8RKo1X8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
