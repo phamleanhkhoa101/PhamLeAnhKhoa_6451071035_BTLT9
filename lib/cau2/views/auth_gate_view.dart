@@ -21,8 +21,23 @@ class _AuthGateViewState extends State<AuthGateView> {
       stream: _controller.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
+          return Scaffold(
+            body: DecoratedBox(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFFEAF7F2),
+                    Color(0xFFFDF7E7),
+                    Color(0xFFF5F7FB),
+                  ],
+                ),
+              ),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
           );
         }
 

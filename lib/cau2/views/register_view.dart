@@ -49,13 +49,19 @@ class _RegisterViewState extends State<RegisterView> {
       if (!mounted) {
         return;
       }
-      AuthSnackBar.show(context, 'Dang ky thanh cong. Hay dang nhap de tiep tuc.');
+      AuthSnackBar.show(
+        context,
+        'Dang ky thanh cong. Hay dang nhap de tiep tuc.',
+      );
       Navigator.of(context).pop();
     } catch (error) {
       if (!mounted) {
         return;
       }
-      AuthSnackBar.show(context, error.toString().replaceFirst('Exception: ', ''));
+      AuthSnackBar.show(
+        context,
+        error.toString().replaceFirst('Exception: ', ''),
+      );
     } finally {
       if (mounted) {
         setState(() {
@@ -67,61 +73,144 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Dang ky - 6451071035')),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 420),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.person_add_alt_1, size: 72),
-                  const SizedBox(height: 16),
-                  AuthTextField(
-                    controller: _emailController,
-                    label: 'Email',
-                    icon: Icons.email_outlined,
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    validator: _validateEmail,
-                  ),
-                  const SizedBox(height: 16),
-                  AuthTextField(
-                    controller: _passwordController,
-                    label: 'Mat khau',
-                    icon: Icons.lock_outline,
-                    obscureText: true,
-                    textInputAction: TextInputAction.next,
-                    validator: _validatePassword,
-                  ),
-                  const SizedBox(height: 16),
-                  AuthTextField(
-                    controller: _confirmPasswordController,
-                    label: 'Nhap lai mat khau',
-                    icon: Icons.lock_reset,
-                    obscureText: true,
-                    textInputAction: TextInputAction.done,
-                    onFieldSubmitted: (_) => _register(),
-                    validator: _validateConfirmPassword,
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _isLoading ? null : _register,
+      body: DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFFEAF7F2),
+              Color(0xFFF4F7FB),
+              Color(0xFFFFF4EC),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Stack(
+            children: [
+              Positioned(
+                top: -60,
+                left: -20,
+                child: _GlowCircle(
+                  size: 190,
+                  color: theme.colorScheme.primary.withOpacity(0.12),
+                ),
+              ),
+              Positioned(
+                bottom: -70,
+                right: -10,
+                child: _GlowCircle(
+                  size: 220,
+                  color: const Color(0xFFF59E0B).withOpacity(0.10),
+                ),
+              ),
+              Center(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 460),
+                    child: Card(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        child: Text(_isLoading ? 'Dang xu ly...' : 'Tao tai khoan'),
+                        padding: const EdgeInsets.all(28),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              IconButton.filledTonal(
+                                onPressed: () => Navigator.of(context).pop(),
+                                icon: const Icon(Icons.arrow_back_rounded),
+                                tooltip: 'Quay lai',
+                              ),
+                              const SizedBox(height: 18),
+                              Container(
+                                width: 68,
+                                height: 68,
+                                decoration: BoxDecoration(
+                                  color:
+                                      theme.colorScheme.primary.withOpacity(0.12),
+                                  borderRadius: BorderRadius.circular(22),
+                                ),
+                                child: Icon(
+                                  Icons.person_add_alt_1_rounded,
+                                  size: 32,
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                              Text(
+                                'Tao tai khoan moi',
+                                style: theme.textTheme.headlineMedium?.copyWith(
+                                  fontWeight: FontWeight.w800,
+                                  height: 1.15,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                'Nhap thong tin de tao tai khoan, sau do dang nhap de bat dau su dung ung dung.',
+                                style: theme.textTheme.bodyLarge?.copyWith(
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                  height: 1.45,
+                                ),
+                              ),
+                              const SizedBox(height: 28),
+                              AuthTextField(
+                                controller: _emailController,
+                                label: 'Email',
+                                icon: Icons.alternate_email_rounded,
+                                keyboardType: TextInputType.emailAddress,
+                                textInputAction: TextInputAction.next,
+                                validator: _validateEmail,
+                              ),
+                              const SizedBox(height: 16),
+                              AuthTextField(
+                                controller: _passwordController,
+                                label: 'Mat khau',
+                                icon: Icons.lock_outline_rounded,
+                                obscureText: true,
+                                textInputAction: TextInputAction.next,
+                                validator: _validatePassword,
+                              ),
+                              const SizedBox(height: 16),
+                              AuthTextField(
+                                controller: _confirmPasswordController,
+                                label: 'Nhap lai mat khau',
+                                icon: Icons.lock_reset_rounded,
+                                obscureText: true,
+                                textInputAction: TextInputAction.done,
+                                onFieldSubmitted: (_) => _register(),
+                                validator: _validateConfirmPassword,
+                              ),
+                              const SizedBox(height: 24),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: _isLoading ? null : _register,
+                                  child: _isLoading
+                                      ? const SizedBox(
+                                          width: 22,
+                                          height: 22,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2.2,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      : const Text('Tao tai khoan'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -155,5 +244,32 @@ class _RegisterViewState extends State<RegisterView> {
       return 'Mat khau nhap lai khong khop';
     }
     return _validatePassword(value);
+  }
+}
+
+class _GlowCircle extends StatelessWidget {
+  const _GlowCircle({
+    required this.size,
+    required this.color,
+  });
+
+  final double size;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: RadialGradient(
+          colors: [
+            color,
+            color.withOpacity(0),
+          ],
+        ),
+      ),
+    );
   }
 }

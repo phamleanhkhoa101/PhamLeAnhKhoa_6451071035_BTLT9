@@ -48,7 +48,10 @@ class _LoginViewState extends State<LoginView> {
       if (!mounted) {
         return;
       }
-      AuthSnackBar.show(context, error.toString().replaceFirst('Exception: ', ''));
+      AuthSnackBar.show(
+        context,
+        error.toString().replaceFirst('Exception: ', ''),
+      );
     } finally {
       if (mounted) {
         setState(() {
@@ -68,57 +71,137 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Dang nhap - 6451071035')),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 420),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.lock_outline, size: 72),
-                  const SizedBox(height: 16),
-                  AuthTextField(
-                    controller: _emailController,
-                    label: 'Email',
-                    icon: Icons.email_outlined,
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    validator: _validateEmail,
-                  ),
-                  const SizedBox(height: 16),
-                  AuthTextField(
-                    controller: _passwordController,
-                    label: 'Mat khau',
-                    icon: Icons.lock_outline,
-                    obscureText: true,
-                    textInputAction: TextInputAction.done,
-                    onFieldSubmitted: (_) => _login(),
-                    validator: _validatePassword,
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _isLoading ? null : _login,
+      body: DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFFEAF7F2),
+              Color(0xFFFDF7E7),
+              Color(0xFFF4F7FB),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: Stack(
+            children: [
+              Positioned(
+                top: -80,
+                right: -40,
+                child: _GlowCircle(
+                  size: 220,
+                  color: theme.colorScheme.primary.withOpacity(0.14),
+                ),
+              ),
+              Positioned(
+                bottom: -40,
+                left: -20,
+                child: _GlowCircle(
+                  size: 180,
+                  color: theme.colorScheme.secondary.withOpacity(0.12),
+                ),
+              ),
+              Center(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 440),
+                    child: Card(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        child: Text(_isLoading ? 'Dang xu ly...' : 'Dang nhap'),
+                        padding: const EdgeInsets.all(28),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 64,
+                                height: 64,
+                                decoration: BoxDecoration(
+                                  color:
+                                      theme.colorScheme.primary.withOpacity(0.12),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Icon(
+                                  Icons.lock_open_rounded,
+                                  size: 30,
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                              Text(
+                                'Chao mung tro lai',
+                                style: theme.textTheme.headlineMedium?.copyWith(
+                                  fontWeight: FontWeight.w800,
+                                  height: 1.15,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                'Dang nhap de tiep tuc quan ly tai khoan Firebase cua ban.',
+                                style: theme.textTheme.bodyLarge?.copyWith(
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                  height: 1.45,
+                                ),
+                              ),
+                              const SizedBox(height: 28),
+                              AuthTextField(
+                                controller: _emailController,
+                                label: 'Email',
+                                icon: Icons.alternate_email_rounded,
+                                keyboardType: TextInputType.emailAddress,
+                                textInputAction: TextInputAction.next,
+                                validator: _validateEmail,
+                              ),
+                              const SizedBox(height: 16),
+                              AuthTextField(
+                                controller: _passwordController,
+                                label: 'Mat khau',
+                                icon: Icons.lock_outline_rounded,
+                                obscureText: true,
+                                textInputAction: TextInputAction.done,
+                                onFieldSubmitted: (_) => _login(),
+                                validator: _validatePassword,
+                              ),
+                              const SizedBox(height: 24),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: _isLoading ? null : _login,
+                                  child: _isLoading
+                                      ? const SizedBox(
+                                          width: 22,
+                                          height: 22,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2.2,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      : const Text('Dang nhap'),
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              Center(
+                                child: TextButton(
+                                  onPressed: _openRegister,
+                                  child:
+                                      const Text('Chua co tai khoan? Dang ky'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  TextButton(
-                    onPressed: _openRegister,
-                    child: const Text('Chua co tai khoan? Dang ky'),
-                  ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -145,5 +228,32 @@ class _LoginViewState extends State<LoginView> {
       return 'Mat khau phai tu 6 ky tu tro len';
     }
     return null;
+  }
+}
+
+class _GlowCircle extends StatelessWidget {
+  const _GlowCircle({
+    required this.size,
+    required this.color,
+  });
+
+  final double size;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: RadialGradient(
+          colors: [
+            color,
+            color.withOpacity(0),
+          ],
+        ),
+      ),
+    );
   }
 }
